@@ -5,7 +5,7 @@ function Feed(props) {
 
   function increaseFeed() {
     let newFeed = props.feedDisplay;
-    newFeed+10;
+    newFeed+=10;
     props.onIncreaseFeed(newFeed);
   }
 

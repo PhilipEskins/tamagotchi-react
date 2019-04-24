@@ -10,6 +10,7 @@ class Tam extends React.Component {
       lifeCounter: 100,
       feedCounter: 100
     };
+    this.handleIncreaseFeed = this.handleIncreaseFeed.bind(this);
   }
 
   decreaseFeed() {
@@ -23,10 +24,7 @@ class Tam extends React.Component {
   }
 
   handleIncreaseFeed(newFeed) {
-    console.log(newFeed);
-    // console.log("Hunger: " + this.state.feedCounter);
-    let newFeedAdd = this.state.feedCounter;
-    // this.setState({feedCounter: newFeed});
+    this.setState({feedCounter: newFeed})
   }
 
   decreaseLife() {

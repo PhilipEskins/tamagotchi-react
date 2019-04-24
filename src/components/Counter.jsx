@@ -1,5 +1,4 @@
 import React from 'react';
-import LifeCount from './LifeCount';
 import Feed from './Feed';
 import Sleep from './Sleep';
 import PropTypes from 'prop-types';
@@ -8,7 +7,6 @@ function Counter(props) {
   return(
     <div>
       <h1>The life of Tamagotchi</h1>
-      <LifeCount/>
       <Feed feedDisplay={props.feedDisplay}
       onIncreaseFeed = {props.onIncreaseFeed}
   />

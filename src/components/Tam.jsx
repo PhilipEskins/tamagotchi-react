@@ -9,7 +9,7 @@ class Tam extends React.Component {
       evolutionCounter: 0,
       lifeCounter: 100,
       feedCounter: 10,
-      sleepCounter: 10
+      sleepCounter: 4
     };
     this.handleIncreaseFeed = this.handleIncreaseFeed.bind(this);
 
@@ -17,26 +17,28 @@ class Tam extends React.Component {
   }
 
   decreaseFeed() {
-    let newFeedCount = this.state.feedCounter;
-    newFeedCount--;
-    this.setState({feedCounter: newFeedCount});
-    if (newFeedCount === 0) {
-      this.stopTimer(this.feedUpdateTimer, newFeedCount);
-      this.startLifeCounter();
+    if (this.state.feedCounter != 0) {
+      let newFeedCount = this.state.feedCounter;
+      newFeedCount--;
+      this.setState({feedCounter: newFeedCount});
+    }
+     else if (this.state.feedCounter === 0) {
+       this.setState({feedCounter: 0});
+      // this.startLifeCounter();
     }
   }
 
   handleIncreaseFeed(newFeed) {
-    this.setState({feedCounter: newFeed})
+    this.setState({feedCounter: newFeed});
   }
 
   decreaseSleep() {
-    let newSleepCount = this.state.sleepCounter;
-    newSleepCount--;
-    this.setState({sleepCounter: newSleepCount});
-    if (newSleepCount === 0) {
-      this.stopTimer(this.sleepUpdateTimer, newSleepCount);
-      this.startLifeCounter();
+    if (this.state.sleepCounter != 0) {
+      let newSleepCount = this.state.sleepCounter;
+      newSleepCount--;
+      this.setState({sleepCounter: newSleepCount});
+    } else if (this.state.sleepCounter === 0) {
+      this.setState({sleepCounter: 0});
     }
   }
 
@@ -45,29 +47,39 @@ class Tam extends React.Component {
   }
 
   decreaseLife() {
-    console.log("feed counter" + this.state.feedCounter);
-    let newLifeCount = this.state.lifeCounter;
-    newLifeCount--;
-    this.setState({lifeCounter: newLifeCount});
-    this.stopTimer(this.lifeUpdateTimer, newLifeCount);
-    console.log("Life: " + this.state.lifeCounter);
-  }
-
-  startLifeCounter () {
-    this.lifeUpdateTimer = setInterval(()=>
-    this.decreaseLife(), 1000);
-  }
-
-  stopTimer(timer, counter) {
-    if (counter === 0) {
-      clearInterval(timer);
+    if (this.state.lifeCounter > 0) {
+      let newLifeCount = this.state.lifeCounter;
+      newLifeCount--;
+      this.setState({lifeCounter: newLifeCount});
+      console.log("Life: " + this.state.lifeCounter);
+    } else {
+      this.stopTimer(this.lifeUpdateTimer);
     }
   }
 
-  componentDidMount() {
-    this.feedUpdateTimer = setInterval(() => this.decreaseFeed(), 1000);
 
-    this.sleepUpdateTimer = setInterval(() => this.decreaseSleep(), 1000);
+
+  startLifeCounter() {
+    if (this.state.feedCounter === 0) {
+      this.decreaseSleep();
+      this.decreaseLife();
+    } else if (this.state.sleepCounter === 0) {
+      this.decreaseFeed();
+      this.decreaseLife();
+    } else {
+      this.decreaseFeed();
+      this.decreaseSleep();
+      console.log("nothing");
+    }
+  }
+
+  stopTimer(timer) {
+    console.log("stop");
+    clearInterval(timer);
+  }
+
+  componentDidMount() {
+    this.lifeCheckTimer = setInterval(() => this.startLifeCounter(), 1000);
   }
 
   componentWillUnmount() {

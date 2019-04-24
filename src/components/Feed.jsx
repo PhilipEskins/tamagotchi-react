@@ -11,7 +11,7 @@ function Feed(props) {
 
   return(
     <div>
-        <p>Hunger level: {props.feedDisplay}</p>
+        <p>Fullness level: {props.feedDisplay}</p>
       <button onClick={increaseFeed}>Feed Tamagotchi</button>
     </div>
   );

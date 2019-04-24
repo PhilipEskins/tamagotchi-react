@@ -8,9 +8,12 @@ class Tam extends React.Component {
     this.state = {
       evolutionCounter: 0,
       lifeCounter: 100,
-      feedCounter: 100
+      feedCounter: 10,
+      sleepCounter: 10
     };
     this.handleIncreaseFeed = this.handleIncreaseFeed.bind(this);
+
+    this.handleIncreaseSleep = this.handleIncreaseSleep.bind(this);
   }
 
   decreaseFeed() {
@@ -25,6 +28,20 @@ class Tam extends React.Component {
 
   handleIncreaseFeed(newFeed) {
     this.setState({feedCounter: newFeed})
+  }
+
+  decreaseSleep() {
+    let newSleepCount = this.state.sleepCounter;
+    newSleepCount--;
+    this.setState({sleepCounter: newSleepCount});
+    if (newSleepCount === 0) {
+      this.stopTimer(this.sleepUpdateTimer, newSleepCount);
+      this.startLifeCounter();
+    }
+  }
+
+  handleIncreaseSleep(newSleep) {
+    this.setState({sleepCounter: newSleep})
   }
 
   decreaseLife() {
@@ -49,10 +66,14 @@ class Tam extends React.Component {
 
   componentDidMount() {
     this.feedUpdateTimer = setInterval(() => this.decreaseFeed(), 1000);
+
+    this.sleepUpdateTimer = setInterval(() => this.decreaseSleep(), 1000);
   }
 
   componentWillUnmount() {
     clearInterval(this.lifeUpdateTimer);
+    clearInterval(this.feedUpdateTimer);
+    clearInterval(this.sleepUpdateTimer);
   }
 
   render() {
@@ -63,7 +84,8 @@ class Tam extends React.Component {
         <Counter
           feedDisplay= {this.state.feedCounter}
           onIncreaseFeed = {this.handleIncreaseFeed}
-
+          sleepDisplay= {this.state.sleepCounter}
+          onIncreaseSleep = {this.handleIncreaseSleep}
           />
       </div>
     );

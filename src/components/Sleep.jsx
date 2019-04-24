@@ -1,11 +1,26 @@
 import React from 'react';
 
-function Sleep() {
+import PropTypes from 'prop-types';
+
+function Sleep(props) {
+
+  function increaseSleep() {
+    let newSleep = props.sleepDisplay;
+    newSleep+=10;
+    props.onIncreaseSleep(newSleep);
+  }
+
   return(
     <div>
-      <h1>Sleep here</h1>
+        <p>Alertness level: {props.sleepDisplay}</p>
+      <button onClick={increaseSleep}>Naptime!</button>
     </div>
   );
 }
+
+Sleep.propTypes = {
+  sleepDisplay: PropTypes.number,
+  onIncreaseSleep: PropTypes.func
+};
 
 export default Sleep;
